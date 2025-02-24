@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Audio Recorder</title>
+</head>
+<body>
+
+    <table style="width:100%">
+        <tr>
+            <td style="width:50%">
+                <h2>Alberto Ramirez</h2>
+                <h2>Z15190799</h2>
+                <h2>Project 2</h2>
+                <h2>Implement Sentiment Analysis</h2>
+                
+
+                <button id="record">Record</button>
+                <button id="stop">Stop</button>
+                <span id="timer">00:00</span>
+                <audio id="audio"></audio>
+                <form id="uploadForm" method="POST" enctype="multipart/form-data">
+                    <input type="hidden" name="audio_data" id="audioData">
+                </form>
+                <script src="script.js"></script>
+                <hl></hl>
+                <h2>Recorded Files</h2>
+                <ul>
+                    {% for file in files %}
+                    <li> 
+                        <audio controls>
+                            <source src="{{ url_for('uploaded_file', filename=file) }}">
+                            Your browser does not support the audio element.
+                        </audio><br>
+                        {{file}}
+                        <a href="uploads/{{file}}.txt">
+                        {{file}}.txt
+                        </a>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </td>
+            <td style="width:50%">
+                <h2>Type in your text to generate audio</h2>
+
+                <form action="/upload_text" method="post">
+                  <textarea name="text" rows="10" cols="50"></textarea>
+                  <br>
+                  <input type="submit" value="Upload">
+                </form>
+                <h2>Generated Audio Files</h2>
+                <ul>
+                    {% for file in tts_files %}
+                    <li>
+                        <audio controls>
+                            <source src="{{ url_for('uploaded_file', filename=file) }}" type="audio/wav">
+                            Your browser does not support the audio element.
+                        </audio><br>
+                        {{file}}
+                        
+                        <br>
+                        <a href="{{ url_for('uploaded_file', filename=file + '.txt') }}">
+                        {{ file }}.txt
+                        </a>
+                     
+                    </li>
+                    {% endfor %}
+                </ul>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>
