@@ -139,7 +139,6 @@ def upload_audio():
         # Save transcript to same filename but .txt
         #
  
-        #filename = file_path
         f = open(file_path,'rb')
         data = f.read()
         f.close()
@@ -169,9 +168,9 @@ def upload_audio():
         f.write(f"Sentiment Score: {score:.2f}\n")
         f.write(f"Sentiment: {sentiment_category}\n")
 
-    print(f"✅ Sentiment analysis saved for: {text_file_path}")    
+    print(f"Sentiment analysis saved for: {text_file_path}")    
 
-    return redirect('/') #success
+    return redirect('/') 
 
 @app.route('/upload/<filename>')
 def get_file(filename):
@@ -199,11 +198,11 @@ def upload_text():
     #save text
     text_file_path = audio_path + '.txt'
 
-    # ✅ Save input text to file
+    # Save text to file
     with open(text_file_path, 'w') as text_file:
         text_file.write(text)
 
-    # ✅ Analyze sentiment and append results
+    # Analyze sentiment and append results
     sentiment = sample_analyze_sentiment(text)
     score = sentiment.document_sentiment.score * sentiment.document_sentiment.magnitude
     sentiment_category = "POSITIVE" if score > 0.75 else "NEGATIVE" if score < -0.75 else "NEUTRAL"
@@ -213,12 +212,12 @@ def upload_text():
         f.write(f"Sentiment Score: {score:.2f}\n")
         f.write(f"Sentiment: {sentiment_category}\n")
 
-    print(f"✅ Sentiment analysis saved for: {text_file_path}")
+    print(f"Sentiment analysis saved for: {text_file_path}")
 #    f = open(audio_path+'.txt','w')
 #    f.write(text)
 #    f.close()
 
-    return redirect('/') #success
+    return redirect('/') 
 
 @app.route('/script.js',methods=['GET'])
 def scripts_js():
@@ -226,7 +225,6 @@ def scripts_js():
 
 @app.route('/uploads/<filename>')
 def uploaded_file(filename):
-    # Dynamically serve files from UPLOAD_FOLDER or TTS_FOLDER
     if os.path.exists(os.path.join(app.config['TTS_FOLDER'], filename)):
         folder = app.config['TTS_FOLDER']
     else:
